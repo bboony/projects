@@ -1,0 +1,74 @@
+alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ_' #Alphabet library used in my program
+def main(): #main function
+    condition = int(input("Input 0 if you want to encrypt a message. Input 1 if you want to decrypt a message.")) #lets the user choose encryption or decryption
+    a = input("Put the message in: ")
+    global message
+    message = a.upper() #gets the message as a string consisted of upper case letters since all outputs will be in uppercase letters
+    a = input("Put the secret key in: ")
+    global key
+    key = a.upper() #gets the key as a string consisted of upper case letters; same reason as above
+    global indexlim
+    indexlim = len(key)-1 #the index limitation variable is used to control the encrypt and decrypt functions
+    if condition == 0: #decrypts or encrypts the message based on the user's input
+        print("The encrypted message is:",encrypt(message)) 
+    elif condition == 1:
+        print("The decrypted message is:",decrypt(message)) 
+def getalphavalue(onecharacter): #returns the alphanumeric value, including '_', of a character.
+    for i in range(27):
+        if alphabet[i] == onecharacter:
+            return i
+        elif onecharacter == ' ':
+            return 26
+def encrypt(string): #encrypts the message based on the key 
+    temp = 0 #initializes 4 required internal variables and 1 string
+    rpt = 0
+    charvalue = 0
+    encryptvalue = 0
+    result = '' 
+    for char in string: #creates a new string with encrypted messages using getalphavalue function.
+        temp = getalphavalue(char)
+        encryptvalue = getalphavalue(key[rpt])
+        temp = temp + encryptvalue #adds the alphanumeric value of the message's character to the alphanumeric value of the key's character.
+        if temp > 26: #if the value goes over the length of 'alphabet', it goes back to the first item of 'alphabet'.
+            temp = temp-27
+        result = result + alphabet[temp] #converts the alphanumeric value back to the character
+        if indexlim > rpt: #controls the rpt variable; if rpt becomes bigger than the length of the key, it resets rpt to 0 
+            rpt = rpt + 1
+        else:
+            rpt = 0
+    return result
+def decrypt(string): #does the same thing as encrypt function except this one subtracts the value of the key for each characters in the message to decrypt the message.
+    rpt = 0
+    temp = 0
+    charvalue = 0
+    decryptvalue = 0
+    decryptresult = ''
+    for char in string:
+        temp = getalphavalue(char)
+        decryptvalue = getalphavalue(key[rpt])
+        temp = temp - decryptvalue #subtraction 
+        if temp < 0:
+            temp = temp+27 #adds 27 so it goes back to the last index of alphabet 
+        decryptresult = decryptresult + alphabet[temp]
+        if indexlim > rpt:
+            rpt = rpt + 1
+        else:
+            rpt = 0
+    return decryptresult
+bruh = 1 
+while bruh == 1: #if the user puts 1, the user can keep encrypting and decrypting strings.
+    main()
+    bruh = int(input("Put 1 to keep going; put any number other than 1 to stop."))
+    
+    
+
+    
+            
+    
+
+    
+    
+    
+        
+
+
